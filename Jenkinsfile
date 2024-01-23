@@ -3,9 +3,8 @@ piepline{
   stages{
     stage("Code Analysis"){
       steps{
-        
         sh 'sonar-scanner'
-      }
+       }
     }
     stage("Build & Provision"){
       steps{
@@ -36,5 +35,13 @@ piepline{
                 }
             }
         }
-  }
+
+    post {
+        success {
+            echo 'Deployment successful!'
+        }
+        failure {
+            echo 'Deployment failed. Check the logs for details.'
+        }
+    }
 }
