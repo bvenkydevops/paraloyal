@@ -3,6 +3,7 @@ piepline{
   stages{
     stage("Code Analysis"){
       steps{
+        checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/bvenkydevops/paraloyal.git']])
         sh 'sonar-scanner'
        }
     }
