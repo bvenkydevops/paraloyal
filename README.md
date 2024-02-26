@@ -11,8 +11,18 @@ http://VMpublicIP:8080/activities.html //
 ---------------Free download --------------
 
 
+
+
+![Screenshot (370)](https://github.com/bvenkydevops/paraloyal/assets/104990262/45f016d5-42d4-4999-9595-21c4f38652a0)
+
+
+![Screenshot (372)](https://github.com/bvenkydevops/paraloyal/assets/104990262/46b3b416-71d9-43f7-adef-08ca98ad7992)
+
+![Screenshot (371)](https://github.com/bvenkydevops/paraloyal/assets/104990262/3dfda232-7f0d-4dd0-95aa-9afbcb70ee09)
+
+
+
 ![Screenshot (373)](https://github.com/bvenkydevops/paraloyal/assets/104990262/99aca7d9-2ec3-4b14-8f8a-71a73b6193d1)
 
-![Screenshot (373)](https://github.com/bvenkydevops/paraloyal/assets/104990262/bbf956f9-668d-40a7-872e-664e005e2b42)
 
-![Screenshot (373)](https://github.com/bvenkydevops/paraloyal/assets/104990262/9e6abb4f-b42c-4934-a4d3-2b228426fbb7)
+
