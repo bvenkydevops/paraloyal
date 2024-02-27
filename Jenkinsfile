@@ -1,48 +1,27 @@
 pipeline{
   agent any
-  stages{
-    stage("Code Analysis"){
-      steps{
-        checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/bvenkydevops/paraloyal.git']])
-        sh 'sonar-scanner'
-       }
-    }
-    stage("Build & Provision"){
-      steps{
-         script {
-                    sh 'mvn clean install'
-                    sh 'ansible-playbook -i inventory.ini deploy.yml'
-          } 
-       }
-    }
+      environment{
+        SCANNER_HOME= tool 'sonar-scanner'
+      }
+    stages {
+        stage('git checkout') {
+            steps {
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/bvenkydevops/paraloyal.git']])
+            }
+        }
+        stage('sonarQube Scan'){
+            steps{
+                 withSonarQubeEnv('sonar-scanner') {
+                  sh '$SCANNER_HOME/bin/sonar-scanner -Dsonar.projectKey=paraloyal -Dsonar.projectName=paraloyal_project' 
+                }
+            }
+        }
     stage("Automated Testing"){
       steps{
          script {
-                    sh 'selenium-test.sh'
+                 sh 'selenium-test.sh'
              }
            }
          }
-    stage("Artifact Deployment"){
-      steps{
-         script {
-                    sh 'aws s3 cp target/*.jar s3://your-s3-bucket/'
-                }
-            }
-        }
-    stage('EKS Cluster Deployment') {
-            steps {
-                script {
-                    sh 'kubectl apply -f eks-deployment.yaml'
-                }
-            }
-        }
-
-    post {
-        success {
-            echo 'Deployment successful!'
-        }
-        failure {
-            echo 'Deployment failed. Check the logs for details.'
-        }
     }
 }
