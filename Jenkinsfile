@@ -2,6 +2,10 @@ pipeline {
     agent any
       environment{
           SCANNER_HOME= tool 'sonar-scanner'
+    AWS_ACCESS_KEY_ID = credentials('accesskey')
+    AWS_SECRET_ACCESS_KEY = credentials('secretkey')
+    AWS_REGION = 'us-east-1'
+    CLUSTER_NAME = 'paraloyal_task' 
       }
     stages {
         stage('git checkout') {
@@ -34,12 +38,15 @@ pipeline {
                 }
             }
         }
-      stage('Deploy'){
-        steps{
-          scripts{
-            sh 'kubectl apply -f HPA_deploy.yml'
-          }
+       stage('Create EKS Cluster') {
+           steps {
+               script {
+                  sh "eksctl create cluster --name ${CLUSTER_NAME} --region ${AWS_REGION} --node-type t2.micro --nodes 2"
+                  sh "eksctl get cluster --region=${AWS_REGION} --name=${CLUSTER_NAME}"
+                  sh "aws eks --region=${AWS_REGION} update-kubeconfig --name ${CLUSTER_NAME}"
+                  sh "kubectl apply -f HPA_deploy.yaml"
+                }
+            }
         }
-      }
     }
 }
