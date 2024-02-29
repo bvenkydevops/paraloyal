@@ -21,13 +21,13 @@ spec:
         ports:
         - name: http
           containerPort: 80
-        resorces:
+        resources:  
           requests:
             cpu: "100m"
-            memory: "64mi"
-            limits:
-              cpu: "100m"
-              memory: "256mi"
+            memory: "64Mi"  
+          limits:
+            cpu: "100m"
+            memory: "256Mi"  
 ---
 # service.yml
 apiVersion: v1
@@ -39,7 +39,7 @@ metadata:
 spec:
   type: NodePort
   selector:
-    name: paraloyalpod
+    app: paraloyalpod
   ports:
     - protocol: TCP
       port: 8080
@@ -47,20 +47,20 @@ spec:
       nodePort: 30001
 ---
 #HPA.yml
-apiVersion: autoscaling/v2betal
-kind: HorizantalPodAutoscaler
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
 metadata:
   name: hpadeploymentautoscaler
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: hpadeployment
+    name: paraloyaldeployment
   minReplicas: 2
   maxReplicas: 5
   metrics:
-    - resource:
+    - type: Resource
+      resource:
         name: cpu
         targetAverageUtilization: 50
-        type: Resource
    
